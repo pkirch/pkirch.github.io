@@ -21,27 +21,22 @@ As soon a new file (blob) in an Azure Storage container arrives this file should
 3) Create a new Azure Logic App.
 4) Design the Logic App.
 
-![Azure Portal: Create an Azure Logic App](./img/2017-11-logic-apps/2017-11-create-logic-app.png)
+![Azure Portal: Create an Azure Logic App](/images/2017-11-logic-apps/2017-11-create-logic-app.png)
 
 # Challenges
 
 A first draft could look like this.
 
-![Azure Logic App: 1st draft](./img/2017-11-logic-apps/2017-11-logic-app-design-1.png)
+![Azure Logic App: 1st draft](/images/2017-11-logic-apps/2017-11-logic-app-design-1.png)
 
 With this configuration we have three steps.
 1) When one or more blobs are added or modified (metadata only) (Preview)
-
     * Created a connection to the newly created storage account.
     * Configured to look in the container `files`.
     * Configured to look for changes every 10 seconds.
-
 2) Get blob content
-
     * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)
-
 3) Azure Function
-
     * We call an Azure Function with the content of the blob.
 
 Unfortunately, this configuration does not work because of two errors:
@@ -59,17 +54,17 @@ I use the [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/f
 }
 ```
 
-![Azure Storage Explorer: upload first test file](./img/2017-11-logic-apps/2017-11-azure-storage-explorer-upload-1.png)
+![Azure Storage Explorer: upload first test file](/images/2017-11-logic-apps/2017-11-azure-storage-explorer-upload-1.png)
 
 After each upload I go back into the Azure Portal to look for new **trigger events** and shortly afterwards for new **run events**. To avoid flooding of my trigger history I disable the logic app after each upload to inspect the run results. Before each new try I enable the logic app again.
 
-![Azure Logic App: trigger and run history](./img/2017-11-logic-apps/2017-11-logic-app-history-1.png)
+![Azure Logic App: trigger and run history](/images/2017-11-logic-apps/2017-11-logic-app-history-1.png)
 
 As you can see our first configuration of the Azure Logic App did not run successfully. Let's inspect the first error!
 
 # Error 1: No Array
 
-![Azure Logic App: run history](./img/2017-11-logic-apps/2017-11-logic-app-run-history-1.png)
+![Azure Logic App: run history](/images/2017-11-logic-apps/2017-11-logic-app-run-history-1.png)
 
 The return value of the first step is no array! If we look at the raw data, we see in the `body` that there is no array. Maybe this is an exception because we uploaded only a single file? Try again with two files at the same time.
 
@@ -110,21 +105,21 @@ The return value of the first step is no array! If we look at the raw data, we s
 
 Now, I upload two files at the same time.
 
-![Azure Storage Explorer: upload two test files](./img/2017-11-logic-apps/2017-11-azure-storage-explorer-upload-2-3.png)
+![Azure Storage Explorer: upload two test files](/images/2017-11-logic-apps/2017-11-azure-storage-explorer-upload-2-3.png)
 
 Surprisingly, the Logic App gets triggered for each new file separately.  
 
-![Azure Logic App: trigger and run history](./img/2017-11-logic-apps/2017-11-logic-app-history-2-3.png)
+![Azure Logic App: trigger and run history](/images/2017-11-logic-apps/2017-11-logic-app-history-2-3.png)
 
 So my assumption was wrong that the action `When one or more blobs are added or modified (metadata only) (Preview)` returns an array. For me the property `Number of blobs` was somewhat misleading that the action would return an array.
 
 We can resolve this error easily by removing the for-each-loop. We can design the flow of the Logic App in such a way that the Logic App gets triggered for each new or modified blob separately.
 
-![Azure Logic App: 2nd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-2.png)
+![Azure Logic App: 2nd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-2.png)
 
 Let's try again by uploading a new file. Again, we see in the run history an error. This time the error is at the third step. The first two steps are running successfully, now. We were successful in getting the content of the blob which has triggered the Logic App. So far, so good! Let's explore the new error!
 
-![Azure Logic App: run history](./img/2017-11-logic-apps/2017-11-logic-app-run-history-2a.png)
+![Azure Logic App: run history](/images/2017-11-logic-apps/2017-11-logic-app-run-history-2a.png)
 
 Even the raw data of the 2nd step looks fine.
 
@@ -157,7 +152,7 @@ Even the raw data of the 2nd step looks fine.
 
 The Azure Function action in the third step throws the error `UnsupportedMediaType` with the message: "The WebHook request must contain an entity body formatted as JSON." That error may be confusing at first because our file contains pure JSON data. A look at the content type reveals that the Logic App does not know that we handle JSON data, instead it says something of `application/octet-stream`, which is a binary data type.
 
-![Azure Logic App: run history](./img/2017-11-logic-apps/2017-11-logic-app-run-history-2b.png)
+![Azure Logic App: run history](/images/2017-11-logic-apps/2017-11-logic-app-run-history-2b.png)
 
 The Azure Function gets the following raw input:
 
@@ -224,7 +219,7 @@ namespace FunctionAppShopHack
 
 The documentation states, that Logic Apps can handle natively `application/json` and `text/plain` (see [Handle content types in logic apps](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-content-type)). As we have already JSON data we can use the function `@json()` to cast the data type to `application/json`.
 
-![Azure Logic App: 3rd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-3a.png)
+![Azure Logic App: 3rd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-3a.png)
 
 Unfortunately, this approach cannot be saved by the Logic App Designer.
 
@@ -232,11 +227,11 @@ Error message
 > **Save logic app failed**
 > Failed to save logic app logicapp. The template validation failed: 'The template action 'ProcessBlob2' at line '1' and column '43845' is not valid: "The template language expression 'json(@{body('Get_blob_content')})' is not valid: the string character '@' at position '5' is not expected.".'.
 
-![Azure Logic App: 3rd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-3b.png)
+![Azure Logic App: 3rd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-3b.png)
 
 Fortunately, this only a small shortcoming of the Azure Logic App Designer. We need to look at the configuration in code view. For that reason click on the tree dots `...` in the upper right corner of the Azure Function action and select `Peek code` in the menu.
 
-![Azure Logic App: 3rd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-3c.png)
+![Azure Logic App: 3rd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-3c.png)
 
 ```json
 {
@@ -249,7 +244,7 @@ Fortunately, this only a small shortcoming of the Azure Logic App Designer. We n
 }
 ```
 
-![Azure Logic App: 2nd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-3d.png)
+![Azure Logic App: 2nd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-3d.png)
 
 We have to change the evaluation in the body property. It must not contain more than one expression wrapper `@()`. The documentation does not say explicitly how to nest expressions (see [https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-workflow-definition-language#expressions](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-workflow-definition-language#expressions)), but after some trial and error, we know, we just need to remove the nested expression wrapper `@{`and `}` and leave everything else.
 
@@ -257,13 +252,13 @@ We have to change the evaluation in the body property. It must not contain more 
 @json(body('Get_blob_content'))
 ```
 
-![Azure Logic App: 3rd draft](./img/2017-11-logic-apps/2017-11-logic-app-design-3e.png)
+![Azure Logic App: 3rd draft](/images/2017-11-logic-apps/2017-11-logic-app-design-3e.png)
 
 Check again, if it's working. Upload a new file.
 
 We check the run history, again, and all actions did run successfully. Let's check the raw input and output.
 
-![Azure Logic App: run history](./img/2017-11-logic-apps/2017-11-logic-app-run-history-3.png)
+![Azure Logic App: run history](/images/2017-11-logic-apps/2017-11-logic-app-run-history-3.png)
 
 Raw input:
 
@@ -310,11 +305,11 @@ There is a difference in the input data of the Azure Function action, as there i
 
 The final Logic App looks like this in the designer. Unfortunately, you don't see all expressions. You need to peek inside the code, as seen in the step before.
 
-![Azure Logic App: 4th draft](./img/2017-11-logic-apps/2017-11-logic-app-design-4a.png)
+![Azure Logic App: 4th draft](/images/2017-11-logic-apps/2017-11-logic-app-design-4a.png)
 
 To see everything switch to code view. That's not nice to design, but it's good enough to check our configuration.
 
-![Azure Logic App: 4th draft](./img/2017-11-logic-apps/2017-11-logic-app-design-4b.png)
+![Azure Logic App: 4th draft](/images/2017-11-logic-apps/2017-11-logic-app-design-4b.png)
 
 ```json
 {
