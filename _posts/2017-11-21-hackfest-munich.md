@@ -19,6 +19,6 @@ While supporting for Logic Apps in Azure App Services I learned about the three 
 
 # Impressions #
 
-![agenda of the hackfest](./img/2017-11-hackfest-munich/2017-10-25-hackfest-munich-agenda.jpg)
+![agenda of the hackfest](/images/2017-11-hackfest-munich/2017-10-25-hackfest-munich-agenda.jpg)
 
-![room with attendees](./img/2017-11-hackfest-munich/2017-10-25-hackfest-munich-room.jpg)
+![room with attendees](/images/2017-11-hackfest-munich/2017-10-25-hackfest-munich-room.jpg)
