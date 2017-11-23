@@ -31,20 +31,18 @@ A first draft could look like this.
 
 With this configuration we have three steps.  
 
-1) When one or more blobs are added or modified (metadata only) (Preview)  
-  * Created a connection to the newly created storage account.  
-  * Configured to look in the container `files`.  
-  * Configured to look for changes every 10 seconds.  
-  
-2) Get blob content  
-  * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)  
-
-3) Azure Function  
-  * We call an Azure Function with the content of the blob.  
+1. When one or more blobs are added or modified (metadata only) (Preview)  
+    * Created a connection to the newly created storage account.  
+    * Configured to look in the container `files`.  
+    * Configured to look for changes every 10 seconds.  
+2. Get blob content  
+    * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)  
+3. Azure Function  
+    * We call an Azure Function with the content of the blob.  
 
 Unfortunately, this configuration does not work because of two errors:
-1) there is no array of blobs  
-2) data type issues
+1. there is no array of blobs  
+2. data type issues
 
 # Trigger & Test the Logic App
 
