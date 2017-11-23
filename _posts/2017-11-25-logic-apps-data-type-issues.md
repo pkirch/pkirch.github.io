@@ -35,8 +35,10 @@ With this configuration we have three steps.
   * Created a connection to the newly created storage account.  
   * Configured to look in the container `files`.  
   * Configured to look for changes every 10 seconds.  
+  
 2) Get blob content  
   * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)  
+
 3) Azure Function  
   * We call an Azure Function with the content of the blob.  
 
