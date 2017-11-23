@@ -16,10 +16,10 @@ As soon a new file (blob) in an Azure Storage container arrives this file should
 
 # Preparing the Playground
 
-1) Create a new Azure Storage Account.
-2) Create a new container in the storage account.
-3) Create a new Azure Logic App.
-4) Design the Logic App.
+1) Create a new Azure Storage Account.  
+2) Create a new container in the storage account.  
+3) Create a new Azure Logic App.  
+4) Design the Logic App.  
 
 ![Azure Portal: Create an Azure Logic App](/images/2017-11-logic-apps/2017-11-create-logic-app.png)
 
@@ -29,18 +29,19 @@ A first draft could look like this.
 
 ![Azure Logic App: 1st draft](/images/2017-11-logic-apps/2017-11-logic-app-design-1.png)
 
-With this configuration we have three steps.
-1) When one or more blobs are added or modified (metadata only) (Preview)
-    * Created a connection to the newly created storage account.
-    * Configured to look in the container `files`.
-    * Configured to look for changes every 10 seconds.
-2) Get blob content
-    * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)
-3) Azure Function
-    * We call an Azure Function with the content of the blob.
+With this configuration we have three steps.  
+
+1) When one or more blobs are added or modified (metadata only) (Preview)  
+    * Created a connection to the newly created storage account.  
+    * Configured to look in the container `files`.  
+    * Configured to look for changes every 10 seconds.  
+2) Get blob content  
+    * Gets the content of a blob by ID. (There is a similar action called "Get blob content using path" if you need to get blob contents via paths.)  
+3) Azure Function  
+    * We call an Azure Function with the content of the blob.  
 
 Unfortunately, this configuration does not work because of two errors:
-1) there is no array of blobs
+1) there is no array of blobs  
 2) data type issues
 
 # Trigger & Test the Logic App
