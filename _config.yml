@@ -1,1 +1,4 @@
 theme: jekyll-theme-hacker
+title: "Peter Kirchner Online v2"
+description: "Cloud, Scripting, Coding, Security, Trust - Technical Evangelist @ Microsoft"
+permalink: /:categories/:title/
