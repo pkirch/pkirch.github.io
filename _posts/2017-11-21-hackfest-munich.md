@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "IoT and App Services Hackfest / Munich / Oct 2017"
 date:   2017-11-23 10:04:00 +0100
 categories: event hackfest
