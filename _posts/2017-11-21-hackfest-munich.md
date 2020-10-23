@@ -16,8 +16,8 @@ While supporting for Logic Apps in Azure App Services I learned about the three 
 2) How to create Azure Function apps in Visual Studio to be viewable in the Logic App Designer in the Azure Portal.
 3) How to create a custom Logic App connector.
 
-# Impressions #
+## Impressions
 
 ![agenda of the hackfest](/images/2017-11-hackfest-munich/2017-10-25-hackfest-munich-agenda.jpg)
 
-![room with attendees](/images/2017-11-hackfest-munich/2017-10-25-hackfest-munich-room.jpg)
+![room with attendees](/images/2017-11-hackfest-munich/2017-10-25-hackfest-munich-room.jpg
