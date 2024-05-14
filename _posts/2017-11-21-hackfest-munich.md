@@ -1,7 +1,7 @@
 ---
 title:  "IoT and App Services Hackfest / Munich / Oct 2017"
 date:   2017-11-23 10:04:00 +0100
-categories: event hackfest
+categories: events
 ---
 
 On October 24th and 25th we had an IoT and App Services Hackfest at the Microsoft Office in Munich-Schwabing.
