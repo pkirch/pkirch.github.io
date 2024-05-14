@@ -1,7 +1,7 @@
 ---
 title:  "How to handle data type issues of data from Azure Storage blobs"
 date:   2017-11-23 10:05:00 +0100
-categories: Azure AppServices
+categories: Azure
 ---
 
 ## Summary
